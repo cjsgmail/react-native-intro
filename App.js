@@ -9,6 +9,7 @@ import {
   Text,
   View,
 } from "react-native";
+import { Fontisto } from "@expo/vector-icons";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -16,6 +17,16 @@ export default function App() {
   const [city, setCity] = useState("Loading...");
   const [days, setDays] = useState([]);
   const [ok, setOk] = useState(true);
+
+  const Icons = {
+    Clear: "day-sunny",
+    Clouds: "cloudy",
+    Rain: "rain",
+    Atmosphere: "cloudy-gusts",
+    Snow: "snow",
+    Drizzle: "day-rain",
+    Thunderstorm: "lightning",
+  };
 
   const API_KEY = "533133650895d9c85e3c0088cb17c370";
 
@@ -51,7 +62,6 @@ export default function App() {
       <View style={styles.city}>
         <Text style={styles.cityName}>{city}</Text>
       </View>
-      <View style={styles.iconContainer}></View>
       <ScrollView
         pagingEnabled
         horizontal
@@ -65,6 +75,13 @@ export default function App() {
         ) : (
           days.map((day, idx) => (
             <View key={idx} style={styles.day}>
+              <View style={styles.iconContainer}>
+                <Fontisto
+                  name={Icons[day.weather[0].main]}
+                  size={150}
+                  color="black"
+                />
+              </View>
               <Text style={styles.smallDes}>
                 {new Date(day.dt * 1000).toString().substring(0, 10)}
               </Text>
@@ -110,6 +127,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   iconContainer: {
-    flex: 2,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 100,
   },
 });
